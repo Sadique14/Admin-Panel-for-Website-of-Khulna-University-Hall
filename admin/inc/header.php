@@ -55,11 +55,11 @@
         <div class="grid_12 header-repeat">
             <div id="branding">
                 <div class="floatleft logo">
-                    <img src="img/livelogo.png" alt="Logo" />
+                    <img src="img/ku.jpg" alt="Logo" />
 				</div>
 				<div class="floatleft middle">
 					<h1>Admin Panel</h1>
-					<p>Hall</p>
+					<p>Hall Management</p>
 				</div>
                 <div class="floatright">
                     <div class="floatleft">
@@ -83,7 +83,11 @@
                 <li class="ic-form-style"><a href="adminProfile.php"><span>Admin Profile</span></a></li>
 				<li class="ic-typography"><a href="changepassword.php"><span>Change Password</span></a></li>
 				<li class="ic-grid-tables"><a href="inbox.php"><span>Inbox</span></a></li>
-                <li class="ic-charts"><a href=""><span>Visit Website</span></a></li>
+                <?php if(session::get("level")==true){ ?>
+                <li class="ic-grid-tables"><a href="addNewAdmin.php"><span>Add new admin</span></a></li>
+                <li class="ic-grid-tables"><a href="deleteAdmin.php"><span>Delete admin</span></a></li>
+                <?php } ?>
+                <li class="ic-charts"><a href="../index.php" target="blank_"><span>Visit Website</span></a></li>
             </ul>
         </div>
         <div class="clear">

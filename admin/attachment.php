@@ -2,7 +2,7 @@
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php
-    $p = new application();
+    $p = new applications();
     $applications = $p->getSignUpForms();
     $adminId = session::get('adminId');
 ?>

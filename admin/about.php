@@ -2,7 +2,7 @@
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php
-    $adLink = new option();
+    $adLink = new webOptions();
     if($_SERVER['REQUEST_METHOD']==='POST'){
         $check = $adLink->addAboutContact($_POST);
     }
@@ -11,7 +11,7 @@
 ?>
 <div class="grid_10">
     <div class="box round first grid">
-        <h2>Add New Product</h2>
+        <h2>Update Information</h2>
         <div class="block">               
          <form action="" method="post" enctype="multipart/form-data">
             <table class="form">			
@@ -20,6 +20,7 @@
                         <label>About Us:</label>
                     </td>
                     <td>
+                    <!--rows="10" cols="100" class="textBox" -->
                         <textarea class="tinymce" name="aboutUs"><?php echo $result['aboutUs']; ?></textarea>
                     </td>
                 </tr>
@@ -28,14 +29,14 @@
                         <label>Contact Information:</label>
                     </td>
                     <td>
-                        <textarea class="tinymce" name="contact"><?php echo $result['contact']; ?></textarea>
+                        <textarea rows="10" cols="100" class="textBox" name="contact"><?php echo $result['contact']; ?></textarea>
                     </td>
                 </tr>
 
 				<tr>
                     <td></td>
                     <td>
-                        <input type="submit" name="submit" Value="Update" />
+                        <input type="submit" name="submit" Value="Update" onclick="return confirm('Are you sure to update')" />
                     </td>
                 </tr>
             </table>

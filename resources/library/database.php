@@ -1,5 +1,6 @@
 <?php
-require "../resources/config/config.php";
+$filepath = realpath(dirname(__FILE__));
+require ($filepath."/../config/config.php");
 class database{
 	 public $host   = DB_HOST;
 	 public $user   = DB_USER;

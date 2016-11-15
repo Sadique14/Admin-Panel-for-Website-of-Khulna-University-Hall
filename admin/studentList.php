@@ -38,8 +38,8 @@
 			 foreach ($student as $app) {
 			?>
 				<tr class="odd gradeX">
-					<td><?php echo $app['studentId']; ?></td>
-					<td><?php echo $app['studentName']; ?></td>
+					<td><a href="studentDetail.php?studentId=<?php echo $app['studentId']; ?>&type=<?php echo $_GET['type']; ?>"><?php echo $app['studentId']; ?></a></td>
+					<td><a href="studentDetail.php?studentId=<?php echo $app['studentId']; ?>&type=<?php echo $_GET['type']; ?>"><?php echo $app['studentName']; ?></a></td>
 					<td><?php echo $app['discipline']; ?></td>
 					<td><?php echo $app['session']; ?></td>
 					<td><?php echo $app['year']." - ".$app['term']; ?></td>
@@ -48,7 +48,11 @@
 					<td><?php echo $room[0]; ?></td>	
 					<?php } ?>
 				<td>
-					<a href="deleteStudent.php?studentId=<?php echo $app['studentId']; ?>&type=<?php echo $_GET['type']; ?>" onclick="return confirm('Are you sure to Delete!');" >Delete Student</a> 
+					<?php if($_GET['type'] == "Residential" || $_GET['type'] == "Non-Residential"){ ?>
+					<a href="removeStudent.php?studentId=<?php echo $app['studentId']; ?>" onclick="return confirm('Are you sure to Remove!');" >Remove</a>||
+					<?php } ?>
+					
+					<a href="deleteStudent.php?studentId=<?php echo $app['studentId']; ?>&type=<?php echo $_GET['type']; ?>" onclick="return confirm('Are you sure to Delete!');" >Delete</a> 
 				</td>
 				</tr>
 				<?php }} ?>	

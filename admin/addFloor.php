@@ -2,7 +2,7 @@
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php
-    $rm = new rooms();
+    $rm = new roomManagement();
     if($_SERVER['REQUEST_METHOD']==='POST'){
         $name=$_POST['floor'];
         $check = $rm->addFloor($name);

@@ -4,7 +4,9 @@
 **/
 class session{
  public static function init(){
-  session_start();
+  if(!isset($_SESSION)){
+    session_start();
+}
  }
 
  public static function set($key, $val){
@@ -12,6 +14,9 @@ class session{
  }
 
  public static function get($key){
+  if (session_status() == PHP_SESSION_NONE) {
+        self::init();
+      }
   if (isset($_SESSION[$key])) {
    return $_SESSION[$key];
   } else {
@@ -34,9 +39,27 @@ class session{
   }
  }
 
+  public static function checkSessionStudent(){    //session check for student
+      if (session_status() == PHP_SESSION_NONE) {
+        self::init();
+      }
+      
+      if (self::get("studentLogin")== false) {
+        return false;
+      }
+        return true;
+ }
+ public static function destroyStu(){
+  if (session_status() == PHP_SESSION_NONE) {
+        self::init();
+      }
+  session_destroy();
+  header("Location:index.php");
+}
+
  public static function destroy(){
   session_destroy();
-     echo 'ok';
+     //echo 'ok';
   header("Location:login.php");
  }
 }

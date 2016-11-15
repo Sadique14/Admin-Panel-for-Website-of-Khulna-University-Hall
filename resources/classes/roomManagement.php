@@ -1,9 +1,10 @@
 <?php
-    require_once '../resources/library/database.php';
-    require_once '../resources/helpers/format.php';
+$filepath = realpath(dirname(__FILE__));
+    require_once ($filepath.'/../library/database.php');
+    require_once ($filepath.'/../helpers/format.php');
 ?>
 <?php
-    class rooms{
+    class roomManagement{
         private $db;
         private $fm;
         public function __construct(){
@@ -56,6 +57,19 @@
                 $msg = "<span class='error'>Select a floor</span>";
                 return $msg;
             }
+            $query = "SELECT * FROM rooms WHERE floor='$name'";
+            $result = $this->db->select($query);
+            $result = mysqli_fetch_all($result,MYSQLI_ASSOC);
+            $start = $result[0]['start'];
+            $end = $result[0]['end'];
+
+            $query = "SELECT * FROM residential WHERE roomNo BETWEEN '$start' AND '$end'";
+            $result = $this->db->select($query);
+            if($result){
+                $msg = "<span class='error'>Can not delete. Floor contains student.</span>";
+                return $msg;
+            }
+
             $query = "DELETE FROM rooms WHERE floor='$name'";
             $result = $this->db->insertUpdateDelete($query);
             if($result){
@@ -75,6 +89,18 @@
             $end = $this->fm->validation($end);
             $start = mysqli_real_escape_string($this->db->link, $start);
             $end = mysqli_real_escape_string($this->db->link, $end);
+
+            $query = "SELECT start,end FROM rooms WHERE floor='$name'";
+            $result = $this->db->select($query);
+            if($result){
+                $result = mysqli_fetch_all($result,MYSQLI_ASSOC);
+                $oldstart = $result[0]['start'];
+                $oldend = $result[0]['end'];
+                if($oldend!=NULL && $oldstart!=NULL && ($start > $oldstart || $end < $oldend)){
+                    $msg = "<span class='error'>You can not concise roomNo.</span>";
+                    return $msg;
+                }
+            }
             //$start = intval($start);
             //$end = intval($end);
             $query = "UPDATE rooms SET start='$start',end='$end' WHERE floor='$name'";
@@ -92,7 +118,11 @@
 
             $query = "SELECT studentId FROM residential WHERE roomNo='$roomNo'";
             $result = $this->db->select($query);
-            $rowcount=mysqli_num_rows($result);
+            if($result)
+                $rowcount=mysqli_num_rows($result);
+            else {
+                $rowcount = 0;
+            }
             return $rowcount;
         }
         public function assignRoom($adminId,$formNo,$studentId,$roomNo){
@@ -108,15 +138,23 @@
             $dateTime=getdate();
             $date = $dateTime['month']." ".$dateTime['mday'].", ".$dateTime['year'];
 
+            if($roomNo == 0){
+                $msg = "<span class='error'>Select Room.</span>";
+                return $msg;
+            }
+
             $query = "SELECT studentId FROM residential WHERE studentId='$studentId'";
             $res = $this->db->select($query);
             if($res==false){
-                $query = "UPDATE seat_application_form SET approvalDate='$date',adminId='$adminId' WHERE formId='$formNo'";
+                $query = "UPDATE seat_application_form SET approvalDate='$date',adminId='$adminId',approval='1' WHERE formId='$formNo'";
                 $result = $this->db->insertUpdateDelete($query);
                 if($result){
                     $query = "INSERT INTO residential (studentId,formId,roomNo) VALUES('$studentId','$formNo','$roomNo')";
                     $result = $this->db->insertUpdateDelete($query);
-                    if($result){
+
+                    $query = "UPDATE student SET type=true WHERE studentId='$studentId'";
+                    $result2 = $this->db->insertUpdateDelete($query);
+                    if($result && $result2){
                         $msg = "<span class='success'>Rooms assigned successfully</span>";
                         return $msg;
                     }
@@ -129,6 +167,38 @@
                 return $msg;
             }
         
+        }
+        public function acceptRequest($data, $studentId){
+            $studentId = $this->fm->validation($studentId);
+            $studentId = mysqli_real_escape_string($this->db->link, $studentId);
+
+            $query = "UPDATE residential SET acceptRequest='1' WHERE studentId='$studentId'";
+            $result = $this->db->insertUpdateDelete($query);
+            $st = new Student();
+            if($result){
+                $res = $st->clearNotification(session::get("studentId"),session::get("approval"));
+                $msg = "Seat exchange request accepted successfully. Wait for admin approval.";
+                header("Location: successMsg.php?msg=".$msg);
+                exit();
+            }
+            $msg = "<span class='error'>Failed</span>";
+            return $msg;
+        }
+        public function rejectRequest($data, $studentId){
+            $studentId = $this->fm->validation($studentId);
+            $studentId = mysqli_real_escape_string($this->db->link, $studentId);
+
+            $query = "UPDATE residential SET request=NULL WHERE studentId='$studentId'";
+            $result = $this->db->insertUpdateDelete($query);
+             $st = new Student();
+            if($result){
+                $res = $st->clearNotification(session::get("studentId"),session::get("approval"));
+                $msg = "Seat exchange request rejected successfully.";
+                header("Location: successMsg.php?msg=".$msg);
+                exit();
+            }
+            $msg = "<span class='error'>Failed</span>";
+            return $msg;
         }
     }
 ?>

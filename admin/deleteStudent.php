@@ -24,7 +24,8 @@ require_once '../resources/library/database.php';
                         $file_ext = strtolower(end($div));
                         $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
                         $name = "../resources/RecycleBin/".$unique_image;
-                        rename($file['vivaReport'], $name);
+                        //rename($file['vivaReport'], $name);
+                        unlink($file['vivaReport']);
                     } 
                     $query = "DELETE FROM seat_application_form WHERE studentId='$studentId'";
                     $result = $db->insertUpdateDelete($query);
@@ -37,7 +38,8 @@ require_once '../resources/library/database.php';
                             $file_ext = strtolower(end($div));
                             $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
                             $name = "../resources/RecycleBin/".$unique_image;
-                            rename($file['photo'], $name);
+                            //rename($file['photo'], $name);
+                            unlink($file['photo']);
                         } 
                         $query = "DELETE FROM student WHERE studentId='$studentId'";
                         $result = $db->insertUpdateDelete($query);
@@ -50,7 +52,8 @@ require_once '../resources/library/database.php';
                                 $file_ext = strtolower(end($div));
                                 $unique_image = substr(md5(time()), 0, 10).'.'.$file_ext;
                                 $name = "../resources/RecycleBin/".$unique_image;
-                                rename($file['moneyReceipt'], $name);
+                                //rename($file['moneyReceipt'], $name);
+                                unlink($file['moneyReceipt']);
                             } 
                             $query = "DELETE FROM sign_up_form WHERE studentId='$studentId'";
                             $result = $db->insertUpdateDelete($query);
@@ -60,6 +63,6 @@ require_once '../resources/library/database.php';
                 
             }
         }          
-        header("Location: studentList.php");
+        header("Location: studentList.php?type=".$type);
         exit();
 ?>

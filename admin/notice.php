@@ -2,7 +2,7 @@
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php
-    $adLink = new option();
+    $adLink = new webOptions();
     if($_SERVER['REQUEST_METHOD']==='POST'){
         $check = $adLink->addNotice($_POST);
     }
@@ -11,7 +11,7 @@
 ?>
 <div class="grid_10">
     <div class="box round first grid">
-        <h2>Add New Product</h2>
+        <h2>Add Notice</h2>
         <div class="block">               
          <form action="" method="post" enctype="multipart/form-data">
             <table class="form">	

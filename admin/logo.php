@@ -2,7 +2,7 @@
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php
-    $access = new option();
+    $access = new webOptions();
     if($_SERVER['REQUEST_METHOD']=='POST'){
         $check = $access->addLogo($_FILES,$_POST['slide-number']);
     }
@@ -31,14 +31,14 @@
                         </div>
                     </div>
                 <div class="row">
-                <div class="row slider">
+                <!--<div class="row slider">
                         <div class="col span-1-of-3 label">
                             <label>Top-Right Logo:</label>
                         </div>
                         <div class="col span-2-of-3">
-                            <img src="<?php echo $sl['logo2']; ?>" height="120px" width="230px">
+                            <img src="<?php //echo $sl['logo2']; ?>" height="120px" width="230px">
                         </div>
-                    </div>
+                    </div> -->
                 <div class="row">
                     
                 <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" class="content-form" enctype="multipart/form-data">
@@ -52,7 +52,7 @@
                             <select name="slide-number" id="slide-number">
                                 <option value="1">Header image</option>
                                 <option value="2">Top-Left Logo</option>
-                                <option value="3">Top-Right Logo</option>
+                               <!-- <option value="3">Top-Right Logo</option> -->
                             </select>
                         </div>
                     </div>

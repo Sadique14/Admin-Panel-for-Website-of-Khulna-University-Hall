@@ -2,13 +2,14 @@
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php
-    $op = new option();
+    $op = new webOptions();
+    
+    if($_SERVER['REQUEST_METHOD']=='POST'){
+        $check = $op->updateOptions($_POST);
+    }
     $result = $op->getOptions();
     if($result){
         $result = mysqli_fetch_assoc($result);
-    }
-    if($_SERVER['REQUEST_METHOD']=='POST'){
-        $check = $op->updateOptions($_POST);
     }
 ?>
 <div class="grid_10">
@@ -71,7 +72,7 @@
                     <td>
                     </td>
                     <td>
-                        <input type="submit" name="submit" Value="Update" />
+                        <input type="submit" name="submit" Value="Update" onclick="return confirm('Are you sure to Update!');" />
                     </td>
                 </tr>
             </table>
@@ -79,7 +80,7 @@
                     if(isset($check)){
                         echo $check;
                     }
-                    ?>
+                ?>
             </form>
         </div>
     </div>

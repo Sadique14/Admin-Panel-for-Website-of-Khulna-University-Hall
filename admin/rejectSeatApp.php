@@ -1,5 +1,5 @@
 <?php
-require_once '../resources/library/database.php';
+   require_once '../resources/library/database.php';
     require_once '../resources/helpers/format.php';
 
     if(isset($_GET['id'])){
@@ -16,7 +16,7 @@ require_once '../resources/library/database.php';
         	rename($file['vivaReport'], $name);
         } 
 
-        $query = "DELETE FROM seat_application_form WHERE formId='$form_id'";
+        $query = "UPDATE seat_application_form SET approval='0' WHERE formId='$form_id'";
         $result = $db->insertUpdateDelete($query);           
         header("Location: seatAllocation.php");
         exit();

@@ -2,7 +2,7 @@
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php
-    $rm = new rooms();
+    $rm = new roomManagement();
     if($_SERVER['REQUEST_METHOD']==='POST'){
         $name=$_POST['select'];
         $check = $rm->deleteFloor($name);
@@ -11,7 +11,7 @@
 ?>
 <div class="grid_10">
     <div class="box round first grid">
-        <h2>Add Floor</h2>
+        <h2>Delete Floor</h2>
         <div class="block copyblock"> 
          <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
             <table class="form">					

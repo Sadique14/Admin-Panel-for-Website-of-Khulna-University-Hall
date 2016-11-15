@@ -1,5 +1,10 @@
-﻿<?php include 'inc/header.php';?>
+﻿<?php require '../resources/classes/webOptions.php'; ?>
+<?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
+<?php
+	$wbo = new webOptions();
+	$msg = $wbo->getUserMsg();
+?>
         <div class="grid_10">
             <div class="box round first grid">
                 <h2>Inbox</h2>
@@ -7,52 +12,22 @@
                     <table class="data display datatable" id="example">
 					<thead>
 						<tr>
-							<th>Serial No.</th>
+							<th>Name</th>
+							<th>Email</th>
 							<th>Message</th>
 							<th>Action</th>
 						</tr>
 					</thead>
+
 					<tbody>
+					<?php if($msg){ while($value=mysqli_fetch_assoc($msg)){ ?>
 						<tr class="odd gradeX">
-							<td>01</td>
-							<td>Internet</td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
+							<td><?php echo $value['firstName']." ".$value['lastName']; ?></td>
+							<td><?php echo $value['email']; ?></td>
+							<td><?php echo chunk_split($value['msg'], 50, '<br>'); ?></td>
+							<td><a href="deleteUserMsg.php?id=<?php echo $value['id']; ?>">Delete</a></td>
 						</tr>
-						<tr class="even gradeC">
-							<td>02</td>
-							<td>Explorer </td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-						<tr class="odd gradeX">
-							<td>03</td>
-							<td>Internet</td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-						<tr class="even gradeC">
-							<td>04</td>
-							<td>Explorer </td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-							<tr class="odd gradeX">
-							<td>05</td>
-							<td>Internet</td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-						<tr class="even gradeC">
-							<td>06</td>
-							<td>Explorer </td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-						<tr class="odd gradeX">
-							<td>07</td>
-							<td>Internet</td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
-						<tr class="even gradeC">
-							<td>08</td>
-							<td>Explorer </td>
-							<td><a href="">Edit</a> || <a href="">Delete</a></td>
-						</tr>
+					<?php }} ?>	
 					</tbody>
 				</table>
                </div>

@@ -3,7 +3,7 @@
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php
-    $p = new rooms();
+    $p = new roomManagement();
     $st = new student();
     $stu1 = $st->getStudent1ForExchange();
     $stu2 = $st->getStudent2ForExchange();
@@ -19,11 +19,13 @@
                     <th>Student ID 1</th>
                     <th>Discipline</th>
                     <th>Class</th>
+                    <th>Room No.</th>
                     <th>Image</th>
                     <th></th>
                     <th>Student ID 2</th>
                     <th>Discipline</th>
                     <th>Class</th>
+                    <th>Room No.</th>
                     <th>Image</th>
                     <th></th>
                 </tr>
@@ -40,11 +42,13 @@
                     <td><?php echo $stu1[$x]['studentId']; ?></td>
                     <td><?php echo $stu1[$x]['discipline']; ?></td>
                     <td><?php echo $stu1[$x]['year']." - ".$stu1[$x]['term']; ?></td> 
+                    <td><?php $roomNo = $st->getRoomNo($stu1[$x]['studentId']); $roomNo=mysqli_fetch_assoc($roomNo); echo $roomNo['roomNo']; ?></td>
                     <td><?php if($stu1[$x]['photo']){ ?><a href="zoom4.php?image=<?php echo $stu1[$x]['photo']; ?>"><img src="<?php echo $stu1[$x]['photo']; ?>" height="40px" width="60px"/></a> <?php }else{ echo "No Image";} ?></td>    
                     <td>||</td>    
                      <td><?php echo $stu2[$x]['studentId']; ?></td>
                     <td><?php echo $stu2[$x]['discipline']; ?></td>
                     <td><?php echo $stu2[$x]['year']." - ".$stu2[$x]['term']; ?></td> 
+                    <td><?php $roomNo = $st->getRoomNo($stu2[$x]['studentId']); $roomNo=mysqli_fetch_assoc($roomNo); echo $roomNo['roomNo']; ?></td>
                     <td><?php if($stu2[$x]['photo']){ ?><a href="zoom4.php?image=<?php echo $stu2[$x]['photo']; ?>"><img src="<?php echo $stu2[$x]['photo']; ?>" height="40px" width="60px"/></a> <?php }else{ echo "No Image";} ?></td>       
                     <td>
                     <a href="acceptExchange.php?studentId1=<?php echo $stu1[$x]['studentId']; ?>&studentId2=<?php echo $stu2[$x]['studentId']; ?>" onclick="return confirm('Are you sure to Accept!');" >Accept</a> || 

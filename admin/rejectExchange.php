@@ -9,7 +9,10 @@
         //$result = $db->insertUpdateDelete($query);
        // if($result){
             $query="UPDATE residential SET request = NULL,acceptRequest=NULL WHERE studentId='$studentId2'";
-            $result = $db->insertUpdateDelete($query);   
+            $result = $db->insertUpdateDelete($query);  
+
+            $query="UPDATE residential SET approval = '0' WHERE studentId='$studentId1' OR studentId='$studentId2'";
+          $result = $db->insertUpdateDelete($query); 
         //}
 
         header("Location: seatExchange.php");

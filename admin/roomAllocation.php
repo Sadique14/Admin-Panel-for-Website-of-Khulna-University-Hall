@@ -9,7 +9,7 @@
           session::set("tempstu",$studentId);
           session::set("tempform",$formId);
     }
-    $rm = new rooms();
+    $rm = new roomManagement();
     if(isset($_POST['assign'])){
         $roomNo=$_POST['select'];
         $studentId = $_POST['studentId'];
@@ -60,8 +60,8 @@
                             <option value="0">Select Room</option>
                              <?php $numOfRooms = $room['end'] - $room['start'];
                                 for($x=$room['start']; $x<=$room['end']; $x++){
-                                    echo $rm->checkEmptyRoom($x);
-                                    if($rm<=4){
+                                    $rmc = $rm->checkEmptyRoom($x);
+                                    if($rmc<=4){
                              ?>
                             <option><?php echo $x; ?></option>
                             <?php }} ?>

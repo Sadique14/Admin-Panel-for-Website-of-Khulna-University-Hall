@@ -2,7 +2,7 @@
 <?php include 'inc/header.php';?>
 <?php include 'inc/sidebar.php';?>
 <?php
-    $rm = new rooms();
+    $rm = new roomManagement();
     if(isset($_POST['update'])){
         $start=$_POST['start'];
         $end=$_POST['end'];
@@ -56,7 +56,7 @@
                 </tr>
                 <tr> 
                     <td>
-                        <input type="submit" name="update" Value="Update Rooms"/>
+                        <input type="submit" name="update" Value="Update Rooms"  onclick="return confirm('Are you sure to Update');"/>
                     </td>
                 </tr>
                 <?php }} ?>
